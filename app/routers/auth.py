@@ -46,25 +46,3 @@ async def update_user_me(user_update: UserUpdate, current_user: User = Depends(g
 async def delete_user_me(current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     await delete_user(db, current_user.id)
     return {"message": "User deleted"}
-
-@router.post("/forgot-password")
-async def forgot_password(email: str, db: AsyncSession = Depends(get_db)):
-    user = await get_user_by_email(db, email)
-    if not user:
-        raise HTTPException(status_code=400, detail="Email not found")
-    # In a real app, send email with reset token
-    reset_token = create_access_token(data={"sub": user.email}, expires_delta=timedelta(minutes=15))
-    return {"message": "Reset email sent", "reset_token": reset_token}  # For demo, return token
-
-@router.post("/oauth/google")
-async def oauth_google(token: str, db: AsyncSession = Depends(get_db)):
-    # In a real app, verify Google token
-    # For demo, assume token is email
-    email = token  # Simplified
-    user = await get_user_by_email(db, email)
-    if not user:
-        # Create user
-        user_create = UserCreate(email=email, password="oauth_password")  # Dummy password
-        user = await create_user(db, user_create)
-    access_token = create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer"}

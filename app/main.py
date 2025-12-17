@@ -13,7 +13,6 @@ from fastapi.staticfiles import StaticFiles
 from app.routers.participants import router as participants_router
 from app.routers.upload import router as upload_router
 from app.routers.admin import router as admin_router
-from app.routers.recordings import router as recordings_router
 from app.websocket_manager import manager
 from fastapi.responses import FileResponse
 
@@ -38,7 +37,6 @@ app.include_router(meetings_router)
 app.include_router(participants_router)
 app.include_router(upload_router)
 app.include_router(admin_router)
-app.include_router(recordings_router)
 
 @app.get("/admin")
 async def read_admin():
@@ -102,7 +100,7 @@ async def meeting_websocket(websocket: WebSocket, meeting_id: int, token: str):
                         "data": {
                             "id": saved_msg.id,
                             "sender_id": user.id,
-                            "sender_name": user.email, # Or user.name if available
+                            "sender_name": user.email,
                             "content": saved_msg.content,
                             "message_type": saved_msg.message_type.value,
                             "file_name": saved_msg.file_name,

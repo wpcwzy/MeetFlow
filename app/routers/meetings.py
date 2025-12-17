@@ -111,7 +111,7 @@ async def join_meeting_by_number_endpoint(
     participant_data = ParticipantCreate(user_id=current_user.id, role=join_request.role)
     participant = await add_participant(db, meeting.id, participant_data)
     if not participant:
-        raise HTTPException(status_code=403, detail="无法加入会议，可能已被主持人移出。")
+        raise HTTPException(status_code=403, detail="无法加入会议，可能已被主持人封禁。")
 
     await broadcast_meeting_event(
         meeting.id,

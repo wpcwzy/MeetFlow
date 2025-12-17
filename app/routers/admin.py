@@ -8,7 +8,6 @@ from datetime import datetime
 from app.database import get_db
 from app.models.user import User, UserRole
 from app.models.meeting import Meeting, MeetingStatus
-from app.models.recording import Recording, RecordingStatus
 from app.models.chat import ChatMessage, MessageType
 from app.schemas.user import UserResponse
 from app.dependencies import get_current_user

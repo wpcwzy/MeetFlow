@@ -4,4 +4,3 @@ from .meeting import (
     MeetingStatus, ParticipantRole, ParticipantStatus
 )
 from .chat import ChatMessage, MessageType
-from .recording import Recording, RecordingStatus

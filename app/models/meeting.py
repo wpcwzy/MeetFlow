@@ -40,7 +40,6 @@ class Meeting(Base):
     # Relationships
     host = relationship("User", back_populates="hosted_meetings")
     participants = relationship("Participant", back_populates="meeting", cascade="all, delete-orphan")
-    recordings = relationship("Recording", back_populates="meeting", cascade="all, delete-orphan")
 
 # Configure relationships after all classes are defined
 from sqlalchemy.orm import relationship
