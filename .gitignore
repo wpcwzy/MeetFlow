@@ -130,6 +130,7 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
+data/
 meetflow.db
 *.db
 *.sqlite

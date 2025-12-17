@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetFlow · 登录</title>
+    <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body data-page="auth" class="landing-body">
+    <header class="top-nav">
+        <a href="./index.html" class="brand">MeetFlow</a>
+        <nav class="nav-links">
+            <a href="./index.html" class="nav-link is-active">首页</a>
+            <a href="./live.html" class="nav-link">会议</a>
+            <a href="./dashboard.html" class="nav-link">管理</a>
+            <a href="./admin.html" id="nav-admin-link" class="nav-link hidden">管理面板</a>
+        </nav>
+        <div class="nav-actions">
+            <div id="account-info" class="account-chip hidden">
+                <span id="account-email" class="account-chip__email"></span>
+                <span id="account-role" class="account-chip__role"></span>
+            </div>
+            <button id="logout-button" type="button" class="btn btn--ghost nav-logout hidden">退出</button>
+        </div>
+    </header>
+
+    <main class="landing-shell">
+        <section class="landing-hero hero-lite">
+            <div class="hero-copy">
+                <p class="hero__eyebrow">MeetFlow</p>
+                <h1 class="hero__title">会议入口</h1>
+                <p class="hero__subtitle">登录后即可创建或加入会议。</p>
+                <form id="quick-join-form" class="quick-join">
+                    <label for="quick-meeting-input" class="sr-only">会议号</label>
+                    <input id="quick-meeting-input" name="meeting_number" type="text" placeholder="输入会议号，立即入会" required>
+                    <button type="submit" class="btn btn--primary">加入会议</button>
+                </form>
+                <div class="hero-ctas">
+                    <a href="./dashboard.html" class="btn btn--primary">主持会议</a>
+                    <a href="./live.html" class="btn btn--ghost">打开会议室</a>
+                </div>
+            </div>
+
+            <div class="hero-panel">
+                <section class="panel panel--auth landing-panel">
+                    <header class="panel__header">
+                        <div>
+                            <h2>登录</h2>
+                            <p>使用账号进入会议或控制台。</p>
+                        </div>
+                    </header>
+
+                    <div id="notification" class="toast toast--light" role="status" aria-live="assertive"></div>
+
+                    <div class="auth-tabs" id="auth-tabs">
+                        <button type="button" class="auth-tabs__item is-active" data-auth-mode="login">密码登录</button>
+                        <button type="button" class="auth-tabs__item" data-auth-mode="register">创建账号</button>
+                    </div>
+
+                    <div class="auth-forms">
+                        <form id="login-form" class="auth-form is-active" autocomplete="on" data-auth-form="login">
+                            <label>
+                                邮箱
+                                <input type="email" name="email" placeholder="you@example.com" required>
+                            </label>
+                            <label>
+                                密码
+                                <input type="password" name="password" placeholder="请输入密码" required>
+                            </label>
+                            <button type="submit" class="btn btn--primary btn--full">登录</button>
+                        </form>
+
+                        <form id="register-form" class="auth-form" autocomplete="on" data-auth-form="register">
+                            <label>
+                                邮箱
+                                <input type="email" name="email" placeholder="you@example.com" required>
+                            </label>
+                            <label>
+                                密码
+                                <input type="password" name="password" placeholder="设置登录密码" required>
+                            </label>
+                            <button type="submit" class="btn btn--primary btn--full">创建账号</button>
+                        </form>
+                    </div>
+
+                    <div class="auth-summary hidden" id="auth-summary">
+                        <h3>已登录</h3>
+                        <p>可在控制台创建会议，或直接进入会议室。</p>
+                        <div class="summary-actions">
+                            <a href="./dashboard.html" class="btn btn--primary btn--full">打开控制台</a>
+                            <a href="./live.html" class="btn btn--ghost btn--full">进入会议室</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        
+    </main>
+
+    <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>

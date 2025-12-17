@@ -1,0 +1,20 @@
+[project]
+name = "meetflow"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.121.0",
+    "websockets>=15.0.1",
+    "sqlalchemy>=2.0.0",
+    "aiosqlite>=0.20.0",
+    "passlib[argon2]>=1.7.0",
+    "python-jose[cryptography]>=3.3.0",
+    "alembic>=1.13.0",
+    "uvicorn[standard]>=0.32.0",
+    "python-multipart>=0.0.9",
+    "greenlet>=3.0.0",
+    "httpx[socks]>=0.25.0",
+    "livekit-api>=0.1.0",
+]

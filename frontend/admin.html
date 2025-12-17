@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetFlow · 管理面板</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/admin.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">MeetFlow 管理</div>
+        <nav>
+            <a class="nav-link active" data-target="dashboard">📊 概览</a>
+            <a class="nav-link" data-target="users">👥 用户</a>
+            <a class="nav-link" data-target="meetings">🎥 会议</a>
+            <a class="nav-link" data-target="activity">📈 活动</a>
+            <a class="nav-link" data-target="system">⚙️ 系统</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h1 class="page-title" id="page-title">概览</h1>
+            <div class="user-info" id="admin-email"></div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="view-dashboard" class="view-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-title">用户总数</div>
+                    <div class="stat-value" id="total-users">-</div>
+                    <div class="stat-sub">今日新增：<span id="new-users-today">-</span></div>
+                    <div class="stat-sub">管理员：<span id="admin-count">-</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎥</div>
+                    <div class="stat-title">会议总数</div>
+                    <div class="stat-value" id="total-meetings">-</div>
+                    <div class="stat-sub">今日新增：<span id="meetings-today">-</span></div>
+                    <div class="stat-sub">已结束：<span id="ended-meetings">-</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔴</div>
+                    <div class="stat-title">进行中的会议</div>
+                    <div class="stat-value" id="active-meetings">-</div>
+                    <div class="stat-sub">平均参与人数：<span id="avg-participants">-</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-title">消息总数</div>
+                    <div class="stat-value" id="total-messages">-</div>
+                    <div class="stat-sub">今日新增：<span id="messages-today">-</span></div>
+                </div>
+            </div>
+            
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h3 class="chart-title">会议状态分布</h3>
+                    <div class="chart-content">
+                        <canvas id="meeting-status-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3 class="chart-title">用户增长趋势</h3>
+                    <div class="chart-content">
+                        <canvas id="user-growth-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users View -->
+        <div id="view-users" class="view-section hidden">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>邮箱</th>
+                            <th>角色</th>
+                            <th>创建时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Users will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Meetings View -->
+        <div id="view-meetings" class="view-section hidden">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>会议号</th>
+                            <th>主持人</th>
+                            <th>状态</th>
+                            <th>参会人数</th>
+                            <th>开始时间</th>
+                            <th>创建时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="meetings-table-body">
+                        <!-- Meetings will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Activity View -->
+        <div id="view-activity" class="view-section hidden">
+            <div class="activity-container">
+                <div class="activity-timeline" id="activity-timeline">
+                    <!-- Activities will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- System View -->
+        <div id="view-system" class="view-section hidden">
+            <div class="system-grid">
+                <div class="system-card">
+                    <h3 class="system-title">CPU 使用率</h3>
+                    <div class="system-value">
+                        <div class="progress-circle">
+                            <span id="cpu-usage">-</span>%
+                        </div>
+                    </div>
+                </div>
+                <div class="system-card">
+                    <h3 class="system-title">内存使用</h3>
+                    <div class="system-value">
+                        <div class="progress-circle">
+                            <span id="memory-usage">-</span>%
+                        </div>
+                    </div>
+                    <div class="system-detail">
+                        <span id="memory-used">-</span> / <span id="memory-total">-</span> GB
+                    </div>
+                </div>
+                <div class="system-card">
+                    <h3 class="system-title">磁盘使用</h3>
+                    <div class="system-value">
+                        <div class="progress-circle">
+                            <span id="disk-usage">-</span>%
+                        </div>
+                    </div>
+                    <div class="system-detail">
+                        <span id="disk-used">-</span> / <span id="disk-total">-</span> GB
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="./scripts/admin.js"></script>
+</body>
+</html>

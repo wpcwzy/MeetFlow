@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeetFlow · 会议室</title>
+    <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body data-page="live" class="live-body">
+    <header class="top-nav zoom-nav">
+        <a href="./index.html" class="brand">MeetFlow</a>
+        <nav class="nav-links">
+            <a href="./index.html" class="nav-link">首页</a>
+            <a href="./live.html" class="nav-link is-active">会议</a>
+            <a href="./dashboard.html" class="nav-link">管理</a>
+        </nav>
+        <div class="nav-actions">
+            <div id="account-info" class="account-chip hidden">
+                <span id="account-email" class="account-chip__email"></span>
+                <span id="account-role" class="account-chip__role"></span>
+            </div>
+            <button id="logout-button" type="button" class="btn btn--ghost nav-logout">退出</button>
+        </div>
+    </header>
+
+    <main class="live-shell">
+        <section class="live-intro">
+            <div class="live-intro__copy">
+                <h1>会议室</h1>
+                <p>创建会议或输入会议号加入。</p>
+                <div class="live-launcher">
+                    <button id="instant-meeting-button" type="button" class="btn btn--primary btn--huge">
+                        新会议
+                    </button>
+                    <form id="live-join-form" class="live-join-form">
+                        <label class="sr-only" for="live-join-input">会议号</label>
+                        <input id="live-join-input" type="text" name="meeting_number" placeholder="输入会议号" required>
+                        <button type="submit" class="btn btn--ghost">加入</button>
+                    </form>
+                </div>
+            </div>
+            <div class="live-intro__status">
+                <p class="status-label">会议状态</p>
+                <div id="livekit-status" class="status-indicator status-indicator--thick">尚未加入</div>
+                <div id="notification" class="toast live-toast" role="status" aria-live="assertive"></div>
+            </div>
+        </section>
+
+        <section class="live-stage">
+            <div class="video-wall">
+                <div class="video-panel">
+                    <div class="video-panel__header">
+                        <div>
+                            <h2>我的画面</h2>
+                        </div>
+                    </div>
+                    <div class="video-panel__body">
+                        <div class="video-frame">
+                            <video id="local-video" autoplay muted playsinline></video>
+                            <span class="video-label">我</span>
+                        </div>
+                        <div class="media-state" id="media-state-indicator">
+                            <span class="media-state__item" data-type="mic">麦克风未连接</span>
+                            <span class="media-state__item" data-type="camera">摄像头未连接</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-panel video-panel--remote">
+                    <div class="video-panel__header">
+                        <div>
+                            <h2>参会画面</h2>
+                        </div>
+                    </div>
+                    <div id="remote-videos" class="remote-grid"></div>
+                </div>
+            </div>
+
+            <aside class="live-sidebar">
+                <article class="panel panel--summary live-panel">
+                    <header class="panel__header">
+                        <div>
+                            <h2>当前会议</h2>
+                        </div>
+                    </header>
+                    <div id="meeting-summary" class="meeting-summary empty">
+                        暂无会议信息，请点击“新会议”或输入会议号。
+                    </div>
+                </article>
+
+                <article class="panel participants-panel">
+                    <header class="panel__header">
+                        <div>
+                            <h2>参会者</h2>
+                        </div>
+                    </header>
+                    <div id="participants-list" class="participants-list empty">
+                        当前会议暂无参会者。
+                    </div>
+                </article>
+
+                <article class="panel chat-panel">
+                    <header class="panel__header">
+                        <div>
+                            <h2>聊天</h2>
+                        </div>
+                    </header>
+                    <div id="chat-messages" class="chat-messages">
+                        <!-- Messages will be inserted here -->
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="file" id="chat-file-input" style="display: none;">
+                        <button id="chat-file-btn" class="btn btn--icon" title="发送文件">📎</button>
+                        <button id="chat-emoji-btn" class="btn btn--icon" title="表情">😀</button>
+                        <input type="text" id="chat-input" placeholder="输入消息...">
+                        <button id="chat-send-btn" class="btn btn--primary">发送</button>
+                        
+                        <div id="emoji-picker" class="emoji-picker hidden">
+                            <span class="emoji-item">😀</span>
+                            <span class="emoji-item">😂</span>
+                            <span class="emoji-item">👍</span>
+                            <span class="emoji-item">❤️</span>
+                            <span class="emoji-item">🎉</span>
+                            <span class="emoji-item">🤔</span>
+                            <span class="emoji-item">👋</span>
+                            <span class="emoji-item">🔥</span>
+                        </div>
+                    </div>
+                </article>
+            </aside>
+        </section>
+
+        <section class="control-bar" aria-label="会议控制栏">
+            <button id="toggle-mic-button" type="button" class="control-button" disabled>
+                <span>开启麦克风</span>
+            </button>
+            <button id="toggle-camera-button" type="button" class="control-button" disabled>
+                <span>开启摄像头</span>
+            </button>
+            <button id="share-screen-button" type="button" class="control-button" disabled>
+                <span>共享屏幕</span>
+            </button>
+            <div class="control-spacer"></div>
+            <button id="record-button" type="button" class="control-button" disabled>
+                <span>开始录制</span>
+            </button>
+            <button id="join-livekit-button" type="button" class="control-button control-button--primary" disabled>
+                加入会议
+            </button>
+            <button id="leave-livekit-button" type="button" class="control-button control-button--danger" disabled>
+                离开会议
+            </button>
+            <button id="end-meeting-button" type="button" class="control-button control-button--danger hidden">
+                结束会议
+            </button>
+        </section>
+    </main>
+
+    <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>

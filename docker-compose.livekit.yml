@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  livekit:
+    image: livekit/livekit-server:v1.5.3
+    container_name: livekit-dev
+    restart: unless-stopped
+    environment:
+      LIVEKIT_LOG_LEVEL: info
+    command:
+      - --dev
+      - --bind
+      - 0.0.0.0
+      - --keys
+      - "livekit_key: livekit_secret"
+      - --udp-port
+      - 50000-50200
+      - --redis-host
+      - redis:6379
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "50000-50200:50000-50200/udp"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+
